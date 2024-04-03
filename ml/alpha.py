@@ -12,7 +12,7 @@ fitness_goals = ['weight_loss', 'muscle_gain', 'endurance', 'flexibility', 'stre
 age_range = (18, 80)
 sleeping_hours_range = (4, 10)
 steps_count_range = (0, 20000)
-fitness_level_range = (0, 4)
+fitness_level_range = (0, 3)
 stress_level_range = (0, 2)
 
 # Define labels for suggested output

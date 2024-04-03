@@ -7,6 +7,7 @@ import os
 
 def main():
     print("start server ......")
+    # alpha.run()
     model = tf.keras.models.load_model("./models/aplha_model.keras")
 
     path_to_save = os.path.join("datasets", "fitness-dataset.csv")
@@ -14,10 +15,10 @@ def main():
     features, labels, label_encoder, ohe = alpha.preprocess_data(df)
 
     input_data = {
-      'fitness_goal': ['muscle_gain'],
+      'fitness_goal': ['stress_relief'],
       'age': [48],
-      'sleeping_hours': [7.5],
-      'steps_count': [19200],
+      'sleeping_hours': [4.5],
+      'steps_count': [3000],
       'fitness_level': [1],
       'stress_level': [1]
     }
@@ -31,7 +32,7 @@ def main():
     labels = []
     for pred in zip(alpha.fitness_categories, predictions[0]):
         label, score = pred
-        # print(f"{label}: {score}", label, score)
+        print(f"{label}: {score}")
         labels.append(label)
 
     print("Predicted labels:", labels)
