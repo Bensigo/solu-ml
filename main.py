@@ -1,8 +1,12 @@
-## flask for API 
+from dotenv import load_dotenv
 from  ml import alpha
 import tensorflow as tf
 import pandas as pd
 import os 
+
+
+load_dotenv()
+
 
 
 def main():
