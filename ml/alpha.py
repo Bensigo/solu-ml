@@ -8,7 +8,7 @@ import os
 
 
 # Define ranges for input features
-fitness_goals = ['weight_loss', 'muscle_gain', 'endurance', 'flexibility', 'stress_relief']
+fitness_goals = ['weight loss', 'muscle gain', 'endurance', 'flexibility', 'stress relief']
 age_range = (18, 80)
 sleeping_hours_range = (4, 10)
 steps_count_range = (0, 20000)
@@ -39,7 +39,7 @@ fitness_categories = ['cardiovascular', 'HIIT', 'muscle_training',
 #             labels.extend(['mobility', 'mindfulness', 'therapy'])
 #     return list(set(labels))
 
-def assign_labels(fitness_goal, age, sleeping_hours, steps_count, fitness_level, stress_level):
+def assign_labels(fitness_goal, age, sleeping_time, steps_count, fitness_level, stress_level):
     weights = {
         'cardiovascular': 1,
         'HIIT': 1,
@@ -58,7 +58,7 @@ def assign_labels(fitness_goal, age, sleeping_hours, steps_count, fitness_level,
             "cardiovascular" : weights['cardiovascular'] + 1
         })
 
-    if stress_level > 0 or sleeping_hours < 5:
+    if stress_level > 0 or sleeping_time < (60 * 5):
             weights.update({
                 'mobility': weights['mobility'] + 1,
                 'mindfulness': weights['mindfulness'] + 1,
@@ -108,8 +108,7 @@ def generate_dataset(num_samples):
     for _ in range(num_samples):
         fitness_goal = np.random.choice(fitness_goals)
         age = np.random.randint(age_range[0], age_range[1] + 1)
-        sleeping_hours = np.random.uniform(sleeping_hours_range[0], sleeping_hours_range[1])
-
+        sleeping_time = np.random.randint(4, 8) * 60
         if fitness_goal in ['weight_loss', 'muscle_gain']:
             steps_count = np.random.randint(10000, 20000)
             stress_level = np.random.randint(1, 2)
@@ -121,10 +120,10 @@ def generate_dataset(num_samples):
             stress_level = np.random.randint(0, 1)
 
         fitness_level = np.random.randint(fitness_level_range[0], fitness_level_range[1] + 1)
-        labels = assign_labels(fitness_goal, age, sleeping_hours, steps_count, fitness_level, stress_level)
-        data.append([fitness_goal, age, sleeping_hours, steps_count, fitness_level, stress_level, labels])
+        labels = assign_labels(fitness_goal, age, sleeping_time, steps_count, fitness_level, stress_level)
+        data.append([fitness_goal, age, sleeping_time, steps_count, fitness_level, stress_level, labels])
 
-    columns = ['fitness_goal', 'age', 'sleeping_hours', 'steps_count', 'fitness_level', 'stress_level', 'labels']
+    columns = ['fitness_goal', 'age', 'sleeping_time', 'steps_count', 'fitness_level', 'stress_level', 'labels']
     df = pd.DataFrame(data, columns=columns)
     return df
 
@@ -221,8 +220,10 @@ def make_prediction():
 
 
 # Main function
-def run():
-    path_to_save = os.path.join("datasets", "fitness-dataset.csv")
+def main():
+    print("called")
+    path_to_save = os.path.join("../data", "fitness-dataset.csv")
+    print(path_to_save)
     file_exist = os.path.exists(path_to_save)
     if file_exist:
        df = pd.read_csv(path_to_save)
@@ -237,7 +238,7 @@ def run():
     model = train_model(X_train, y_train)
     evaluate_model(model, X_test, y_test)
     path_to_save_model = "models"
-    model.save("models/aplha_model.keras")
+    model.save("../models/aplha_model.keras")
     # tf.saved_model.save(model, "models")
 
     # input_data = {

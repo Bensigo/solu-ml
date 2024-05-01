@@ -1,0 +1,16 @@
+
+POST http://127.0.0.1:8000/v1/sre/recipes
+# Content-Type: application/json
+"x-api-key": 12345
+{
+    "age":26,
+    "gender":"female",
+    "height":165,
+    "weight":63,
+    "step_count":3000,
+    "diet_preference":"Vegan",
+    "fitness_goal":"weight loss",
+    "meal_preference":["Low-Carb", "High-Protein"],
+    "meal_frequency": 2.2,
+    "allergies":["diary", "nuts"]
+}

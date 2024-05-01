@@ -1,0 +1,22 @@
+common_health_conditions_women = [
+    "Breast Cancer",
+    "Cervical Cancer",
+    "Ovarian Cancer",
+    "Endometriosis",
+    "Polycystic Ovary Syndrome (PCOS)",
+    "Osteoporosis",
+    "Menstrual Disorders",
+    "Urinary Tract Infections (UTIs)",
+    "Depression",
+    "Anxiety Disorders",
+    "Thyroid Disorders",
+    "Cardiovascular Diseases",
+    "Diabetes",
+    "Autoimmune Diseases",
+    "Pelvic Inflammatory Disease (PID)",
+    "Fibroids",
+    "Sexually Transmitted Infections (STIs)",
+    "Migraines",
+    "Chronic Fatigue Syndrome",
+    "Pelvic Organ Prolapse"
+]
