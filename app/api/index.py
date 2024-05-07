@@ -27,14 +27,18 @@ from app.sre.recommender import Recommender
 
 
 
-env = Config(RepositoryEnv(".env"))
-X_API_KEY = env.get("SRE_INTERNAL_KEY")
+# env = Config(RepositoryEnv(".env"))
+# X_API_KEY = env.get("SRE_INTERNAL_KEY")
+X_API_KEY = os.getenv("SRE_INTERNAL_KEY")
 
 model = {}
 
-url: str = env.get("SUPABASE_URL")
-key: str = env.get("SUPABASE_KEY")
+# url: str = env.get("SUPABASE_URL")
+# key: str = env.get("SUPABASE_KEY")
 
+
+url: str = os.getenv("SUPABASE_URL")
+key: str = os.getenv("SUPABASE_KEY")
 
 table = {}
 
