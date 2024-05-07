@@ -8,7 +8,18 @@ hooks:
   build: |
     set -eu
     pipenv install --system --deploy
+disk: 2048
+# The following block defines a single writable directory, 'web/uploads'
+# The 'source' specifies where the writable mount is. The 'local' source
+# indicates that the mount point will point to a local directory on the
+# application container. The 'source_path' specifies the subdirectory
+# from within the source that the mount should point at. 
+mounts:
+  'web/uploads':
+    source: local
+    source_path: uploads
+
 web:
   commands:
-    start: "pipenv run python ./app/main.py"
+    start: "pipenv run python ./main.py"
   location:
