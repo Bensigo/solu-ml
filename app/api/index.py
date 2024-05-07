@@ -6,7 +6,8 @@ import pandas as pd
 from decouple import Config, RepositoryEnv
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-import tensorflow as tf
+# import tensorflow as tf
+from keras.models import load_model
 from supabase import create_client, Client
 from supabase.client import ClientOptions
 import os
@@ -54,7 +55,7 @@ async def lifespan(app: FastAPI):
     table["Resource"] = supabase.table("Resource")
     table["Session"] = supabase.table("Session")
 
-    model["alpha"] = tf.keras.models.load_model(f"app/models/aplha_model_{AI_MODEL_VERSION}.keras")
+    model["alpha"] = load_model(f"app/models/aplha_model_{AI_MODEL_VERSION}.keras")
     yield
     # run after the app  has finished
     model.clear()
