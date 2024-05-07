@@ -1,4 +1,4 @@
-from utils.helpers import  calculate_stress
+from app.utils.helpers import  calculate_stress
 
 
 

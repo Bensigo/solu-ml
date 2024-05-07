@@ -12,18 +12,18 @@ from supabase.client import ClientOptions
 import os
 import datetime
 
-from api.schema import (
+from app.api.schema import (
     Recipe_User_Profile,
     Recipe_Req_Body,
     SMW_Req_Body,
     SMW_USER_PROFILE,
 )
-from ml import alpha
-from ml.alpha import __VERSION__ as AI_MODEL_VERSION
-from utils.user_recipe_profile import generate_user_profile_for_recipe
-from utils.smw_user_profile import create_smw_user_profile
-from sre.recipe import recommend_recipes
-from sre.recommender import Recommender
+from app.ml import alpha
+from app.ml.alpha import __VERSION__ as AI_MODEL_VERSION
+from app.utils.user_recipe_profile import generate_user_profile_for_recipe
+from app.utils.smw_user_profile import create_smw_user_profile
+from app.sre.recipe import recommend_recipes
+from app.sre.recommender import Recommender
 
 
 

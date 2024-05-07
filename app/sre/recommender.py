@@ -2,7 +2,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
-from utils.supabase import article_table
+from app.utils.supabase import article_table
 
 class Recommender:
     def __init__(self, data):

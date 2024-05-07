@@ -3,7 +3,7 @@ import pandas as pd
 import datetime
 from sklearn.metrics.pairwise import euclidean_distances
 
-from utils.supabase import recipe_table
+from app.utils.supabase import recipe_table
 
 # Data preparation and cleaning
 def prepare_data(data):

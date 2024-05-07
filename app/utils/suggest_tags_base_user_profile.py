@@ -1,4 +1,4 @@
-from utils.tags import  age_ranges
+from app.utils.tags import  age_ranges
 
 
 def get_age_range(age):
