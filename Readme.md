@@ -39,3 +39,9 @@ pip3 install -r requirement.txt
 ```bash
 pip3 freeze > requirement.txt
 ```
+
+
+### Run API SERVER
+```bash 
+     python main.py
+```

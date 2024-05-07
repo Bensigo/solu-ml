@@ -1,0 +1,14 @@
+name: 'solu-ml'
+type: 'python:3.9'
+# install app requirement
+dependencies:
+  python3:
+    pipenv: "2022.12.19"
+hooks:
+  build: |
+    set -eu
+    pipenv install --system --deploy
+web:
+  commands:
+    start: "pipenv run python ./app/main.py"
+  location:

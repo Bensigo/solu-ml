@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import datetime
 from sklearn.metrics.pairwise import euclidean_distances
+
 from utils.supabase import recipe_table
 
 # Data preparation and cleaning

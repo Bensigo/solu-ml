@@ -6,6 +6,8 @@ import tensorflow as tf
 import os
 
 
+__VERSION__ = "0.0.1"
+
 
 # Define ranges for input features
 fitness_goals = ['weight loss', 'muscle gain', 'endurance', 'flexibility', 'stress relief']
@@ -238,7 +240,7 @@ def main():
     model = train_model(X_train, y_train)
     evaluate_model(model, X_test, y_test)
     path_to_save_model = "models"
-    model.save("../models/aplha_model.keras")
+    model.save(f"../models/aplha_model_{__VERSION__}.keras")
     # tf.saved_model.save(model, "models")
 
     # input_data = {

@@ -10,7 +10,6 @@ import tensorflow as tf
 from supabase import create_client, Client
 from supabase.client import ClientOptions
 import os
-from ml import alpha
 import datetime
 
 from api.schema import (
@@ -19,6 +18,8 @@ from api.schema import (
     SMW_Req_Body,
     SMW_USER_PROFILE,
 )
+from ml import alpha
+from ml.alpha import __VERSION__ as AI_MODEL_VERSION
 from utils.user_recipe_profile import generate_user_profile_for_recipe
 from utils.smw_user_profile import create_smw_user_profile
 from sre.recipe import recommend_recipes
@@ -49,7 +50,7 @@ async def lifespan(app: FastAPI):
     table["Resource"] = supabase.table("Resource")
     table["Session"] = supabase.table("Session")
 
-    model["alpha"] = tf.keras.models.load_model("models/aplha_model.keras")
+    model["alpha"] = tf.keras.models.load_model(f"app/models/aplha_model_{AI_MODEL_VERSION}.keras")
     yield
     # run after the app  has finished
     model.clear()
@@ -79,7 +80,7 @@ async def check_secret_key(api_key: str = Header(...)):
 
 @app.get("/")
 async def root():
-    return {"msg": "hello world", "status": 200}
+    return { "status": "alive", "health_check": "OK", "model_version": AI_MODEL_VERSION}
 
 
 @app.post("/v1/sre/recipes")
