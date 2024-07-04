@@ -43,5 +43,5 @@ pip3 freeze > requirement.txt
 
 ### Run API SERVER
 ```bash 
-     python main.py
+     uvicorn main:app --reload
 ```

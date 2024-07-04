@@ -13,7 +13,7 @@ __VERSION__ = "0.0.1"
 fitness_goals = ['weight loss', 'muscle gain', 'endurance', 'flexibility', 'stress relief']
 age_range = (18, 80)
 sleeping_hours_range = (4, 10)
-steps_count_range = (0, 20000)
+steps_count_range = (0, 80000)
 fitness_level_range = (0, 3)
 stress_level_range = (0, 2)
 
@@ -24,23 +24,6 @@ fitness_categories = ['cardiovascular', 'HIIT', 'muscle_training',
 
 
 # Define rules to assign labels based on input features
-# def assign_labels(fitness_goal, age, sleeping_hours, steps_count, fitness_level, stress_level):
-#     labels = []
-#     if fitness_goal == 'weight_loss':
-#         labels.extend(['cardiovascular', 'HIIT', 'strength', 'endurance'])
-#     elif fitness_goal == 'muscle_gain':
-#         labels.extend(['muscle_training', 'strength'])
-#     elif fitness_goal == 'endurance':
-#         labels.extend(['endurance', 'cardiovascular', 'HIIT'])
-#     elif fitness_goal == 'stress_relief' or fitness_goal == 'flexibility':
-#         labels.extend(['mobility', 'therapy', 'mindfulness'])
-#     if 'cardiovascular' not in labels and steps_count < 5000:
-#         labels.append('cardiovascular')
-#     if 'mobility' not in labels and 'mindfulness' not in labels and 'therapy' not in labels:
-#         if stress_level > 0 or sleeping_hours < 5:
-#             labels.extend(['mobility', 'mindfulness', 'therapy'])
-#     return list(set(labels))
-
 def assign_labels(fitness_goal, age, sleeping_time, steps_count, fitness_level, stress_level):
     weights = {
         'cardiovascular': 1,
@@ -243,30 +226,29 @@ def main():
     model.save(f"../models/aplha_model_{__VERSION__}.keras")
     # tf.saved_model.save(model, "models")
 
-    # input_data = {
-    #   'fitness_goal': ['muscle_gain'],
-    #   'age': [48],
-    #   'sleeping_hours': [7.5],
-    #   'steps_count': [19200],
-    #   'fitness_level': [1],
-    #   'stress_level': [1]
-    # }
-    # input_df = pd.DataFrame(input_data)
+    input_data = {
+      'fitness_goal': ['muscle gain'],
+      'age': [48],
+      'sleeping_hours': [7.5],
+      'steps_count': [19200],
+      'fitness_level': [1],
+      'stress_level': [1]
+    }
+    input_df = pd.DataFrame(input_data)
 
     # # # Preprocess input data
-    # input_features = preprocess_input_data(input_df, label_encoder,features)
+    input_features = preprocess_input_data(input_df, label_encoder,features)
 
     # # # Make predictions
-    # predictions = model.predict(input_features)
-    # print(predictions.shape)
+    predictions = model.predict(input_features)
+    labels = []
+    for pred in zip(fitness_categories, predictions[0]):
+        label, score = pred
+        labels.append(label)
 
 
-    # labels = []
-    # for pred in zip(fitness_categories, predictions[0]):
-    #     label, score = pred
-    #     labels.append(label)
+    print("Predicted labels:", labels)
 
 
-    # print("Predicted labels:", labels)
-
-
+if __name__ == "__main__":
+    main()

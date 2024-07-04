@@ -20,26 +20,30 @@ from app.api.schema import (
     SMW_USER_PROFILE,
 )
 from app.ml import alpha
-from app.ml.alpha import __VERSION__ as AI_MODEL_VERSION
+from app.ml.v2 import __VERSION__ as AI_MODEL_VERSION
+from app.ml.v2 import FitnessModel
 from app.utils.user_recipe_profile import generate_user_profile_for_recipe
 from app.utils.smw_user_profile import create_smw_user_profile
 from app.sre.recipe import recommend_recipes
 from app.sre.recommender import Recommender
 
 
-
+# for local env
 # env = Config(RepositoryEnv(".env"))
+# print(env)
 # X_API_KEY = env.get("SRE_INTERNAL_KEY")
-X_API_KEY = os.getenv("SRE_INTERNAL_KEY")
-
-model = {}
-
 # url: str = env.get("SUPABASE_URL")
 # key: str = env.get("SUPABASE_KEY")
 
+model = {}
 
+
+# for deployed env
+X_API_KEY = os.getenv("SRE_INTERNAL_KEY")
 url: str = os.getenv("SUPABASE_URL")
 key: str = os.getenv("SUPABASE_KEY")
+
+
 
 table = {}
 
@@ -55,10 +59,10 @@ async def lifespan(app: FastAPI):
     table["Resource"] = supabase.table("Resource")
     table["Session"] = supabase.table("Session")
 
-    model["alpha"] = load_model(f"app/models/aplha_model_{AI_MODEL_VERSION}.keras")
+    # model["alpha"] = load_model(f"app/models/aplha_model_{AI_MODEL_VERSION}.keras")
     yield
     # run after the app  has finished
-    model.clear()
+    # model.clear()
 
 
 app = FastAPI(lifespan=lifespan)
@@ -167,3 +171,27 @@ async def v1_recommend_articles(
     return JSONResponse(
         recommendations.to_dict(orient="records"), status_code=status.HTTP_200_OK
     )
+
+
+
+@app.post("/v1/sre/activities")
+async def v1_suggested_activities(
+    body: SMW_Req_Body, x_api_key: str = Header(..., alias="x-api-key")
+):
+    await check_secret_key(x_api_key)
+    # Your logic for sessions recommendation
+    input = SMW_USER_PROFILE(**body.dict())
+    user_profile = create_smw_user_profile(input.dict())
+    # todo: cache labels for like an hour or 2 to improve API performance
+    model_path = f"app/models/alpha_model_{AI_MODEL_VERSION}.keras"
+    preprocess_path = f"app/models/alpha_preprocess_{AI_MODEL_VERSION}.pkl"
+    fm = FitnessModel()
+    fm.load_model(model_path, preprocess_path)
+    predicted_labels = fm.make_prediction(user_profile)
+    print(predicted_labels, "=======label=========")
+    # activities = []
+    # for pred in zip(alpha.fitness_categories, predicted_labels[0]):
+    #     label, score = pred
+    #     activities.append(label)
+    # print(activities)
+    return JSONResponse(predicted_labels, status_code=status.HTTP_200_OK)

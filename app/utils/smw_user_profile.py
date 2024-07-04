@@ -84,7 +84,8 @@ def create_smw_user_profile(data):
         return {
             "fitness_goal": [fitness_goal],
             "age": [age],  
-            "sleep_count": [sleep_count],
+            "sleeping_time": [sleep_count],
+            "steps_count": [steps_count],
             "fitness_level": [pal],
             "stress_level": [0]
         }
@@ -92,16 +93,28 @@ def create_smw_user_profile(data):
     min_hrv = min(hrvs)
     max_hrv = max(hrvs)
     
+
+    fitness_level = get_fitness_level(pal)
     # Calculate low and high thresholds dynamically
-    low_threshold, high_threshold = calculate_hrv_thresholds(age, PAL_MAPPING.inverse[pal])  # Inverse mapping of PAL
+    low_threshold, high_threshold = calculate_hrv_thresholds(age,fitness_level)  # Inverse mapping of PAL
     
     stress_level = calculate_stress(hrv, min_hrv, max_hrv, low_threshold, high_threshold)
     
     return {
         "fitness_goal": [fitness_goal],
         "age": [age],  
-        "sleep_count": [sleep_count],
+        "sleeping_time": [sleep_count],
+        "steps_count": [steps_count],
         "fitness_level": [pal],
         "stress_level": [stress_level]
     }
 
+
+def get_fitness_level(pal: int):
+    if pal > 0 and pal <= 1:
+        return 'sedentary'
+    if pal > 1 and pal < 3:
+        return 'average'
+    else:
+        return 'athletic'
+    
